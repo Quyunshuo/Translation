@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Translation</string>
+    <string name="main_translation">翻译</string>
+    <string name="main_error">error</string>
+    <string name="main_edit_hint">输入查询</string>
+    <string name="main_hello">Hello!</string>
+    <string name="splash_text">Welcome to Translation!</string>
+</resources>

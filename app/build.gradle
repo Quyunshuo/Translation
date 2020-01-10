@@ -1,0 +1,79 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.quyunshuo.translation"
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+//    signingConfigs {
+//        releaseConfig {
+//            storeFile file('')
+//            storePassword ""
+//            keyAlias ""
+//            keyPassword ""
+//        }
+//    }
+
+    buildTypes {
+        debug {
+//            signingConfig signingConfigs.releaseConfig
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+
+
+        release {
+//            signingConfig signingConfigs.releaseConfig
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def outputFile = outputFileName
+                    if (outputFile != null
+                            && outputFileName.endsWith('.apk')
+                            && 'release' == variant.buildType.name) {
+                        outputFileName = "translation_release_${defaultConfig.versionCode}(${defaultConfig.versionName}).apk"
+                    }
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    // OkHttp 版本过高就需要把Android最低支持版本提高到API 21+
+    implementation "com.squareup.okhttp3:okhttp:3.10.0"
+    // Retrofit 版本过高就需要把Android最低支持版本提高到API 21+
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    // GSon
+    implementation 'com.google.code.gson:gson:2.8.5'
+    // Retrofit GSon
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    // Kotlin协程核心库
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'
+    // Kotlin协程当前平台所对应的平台库
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3"
+}
