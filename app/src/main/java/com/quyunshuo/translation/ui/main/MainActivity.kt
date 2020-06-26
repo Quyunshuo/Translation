@@ -42,7 +42,7 @@ class MainActivity : BaseActivity<MainContract.Presenter>(),
     /**
      * 请求失败
      */
-    override fun requestFailed() {
-        mShowTv.text = getString(R.string.main_error)
+    override fun requestFailed(e: String) {
+        mShowTv.text = e
     }
 }

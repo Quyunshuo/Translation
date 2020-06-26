@@ -2,7 +2,6 @@ package com.quyunshuo.translation.ui.main
 
 import androidx.lifecycle.LifecycleOwner
 import com.quyunshuo.translation.base.mvp.BasePresenter
-import com.quyunshuo.translation.ui.main.MainContract
 
 /**
  * @Author: MiYan
@@ -23,8 +22,8 @@ class MainPresenter(view: MainContract.View, model: MainContract.Model) :
                 mView.showTranslation(translation)
             }
 
-            override fun failure() {
-                mView.requestFailed()
+            override fun failure(e: String) {
+                mView.requestFailed(e)
             }
         })
 

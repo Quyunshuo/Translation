@@ -16,7 +16,7 @@ interface MainContract {
 
         fun showTranslation(translation: String)
 
-        fun requestFailed()
+        fun requestFailed(e: String)
     }
 
     interface Presenter : IPresenter {
@@ -26,11 +26,11 @@ interface MainContract {
 
     interface Model : IModel {
 
-        fun sendRequest(original: String,callBack: CallBack)
+        fun sendRequest(original: String, callBack: CallBack)
     }
 
     interface CallBack {
         fun success(translation: String)
-        fun failure()
+        fun failure(e: String)
     }
 }

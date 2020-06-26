@@ -28,10 +28,10 @@ class MainModel : MainContract.Model {
      * 发送请求并处理结果
      */
     override fun sendRequest(original: String, callBack: MainContract.CallBack) {
-        mMainScope.launch(Dispatchers.IO) {
+        mMainScope.launch(Dispatchers.Main) {
+            //以当前时间做为随机数
+            val sign = System.currentTimeMillis().toString()
             try {
-                //以当前时间做为随机数
-                val sign = System.currentTimeMillis().toString()
                 //发起请求并接收数据
                 val response =
                     baiDuRequest.sendBaiDuTranslation(
@@ -41,18 +41,10 @@ class MainModel : MainContract.Model {
                         APP_ID,
                         sign,
                         encode("${APP_ID}${original}${sign}${SECURITY_KEY}")
-                    ).execute()
-                val gSonResponse = response.body()
-                //如果接收的数据不为空就通知P层让V层显示数据
-                if (gSonResponse != null) {
-                    //挂起切线程
-                    withContext(Dispatchers.Main) { callBack.success(gSonResponse.transResult?.get(0)?.dst.toString()) }
-                } else {
-                    //挂起切线程
-                    withContext(Dispatchers.Main) { callBack.failure() }
-                }
+                    )
+                callBack.success(response.transResult?.get(0)?.dst.toString())
             } catch (e: Exception) {
-                withContext(Dispatchers.Main) { callBack.failure() }
+                callBack.failure(e.toString())
             }
         }
     }
